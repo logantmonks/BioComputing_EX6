@@ -1,1 +1,1 @@
-# BioComputing2022
+# Submit your homework assignments for Exercise 6
