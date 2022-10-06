@@ -4,7 +4,7 @@
 
 tail -n +2 "$1" | cut -d, -f 1,2 | tr ', ' ' ' | sort -t ' ' -k1,1 -k2,2nr | uniq > gender_YEsort.txt
 
-tail -n +2 wages.csv | cut -d, -f 1,2,4 | sort -n -r -t, -k 3 > earnings_sort.txt
+tail -n +2 "$1" | cut -d, -f 1,2,4 | sort -n -r -t, -k 3 > earnings_sort.txt
 echo ' '
 echo "Highest earner's gender, yearsExperience, and wage:"
 head -n 1 earnings_sort.txt
@@ -15,8 +15,10 @@ echo ' '
 echo "The number of females in the top ten earners of this data set:"
 head -n 10 earnings_sort.txt | grep -w -c 'female'
 
-highschool=$(tail -n +2 wages.csv | cut -d, -f 3,4 | tr ', ' ' ' | grep -w -E '12 [1-9]+\.[1-9]{1,}' | sort -t ' ' -k1,1nr -k2,2n | head -n 1 | cut -d ' ' -f 2)
-college=$(tail -n +2 wages.csv | cut -d, -f 3,4 | tr ', ' ' ' | grep -w -E '16 [1-9]+\.[1-9]{1,}' | sort -t ' ' -k1,1nr -k2,2n | head -n 1 | cut -d ' ' -f 2)
-echo "The minimum wage of people who graduate college is"
+echo ' '
+highschool=$(tail -n +2 "$1" | cut -d, -f 3,4 | tr ', ' ' ' | grep -w -E '12 [1-9]+\.[1-9]{1,}' | sort -t ' ' -k1,1nr -k2,2n | head -n 1 | cut -d ' ' -f 2)
+college=$(tail -n +2 "$1" | cut -d, -f 3,4 | tr ', ' ' ' | grep -w -E '16 [1-9]+\.[1-9]{1,}' | sort -t ' ' -k1,1nr -k2,2n | head -n 1 | cut -d ' ' -f 2)
+echo "The minimum wage of people who graduated college is"
 echo "$college - $highschool" | bc
-echo "more dollars than the minimum wage of people who only graduate from high school"
+echo "more dollars than the minimum wage of people who only graduated from high school"
+echo ' '
