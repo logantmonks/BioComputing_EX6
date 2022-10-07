@@ -1,4 +1,4 @@
-#Problem 2
+#Problem 1
 cat wages.csv | tail -n +2 | cut -d , -f 1,2 | sed 's/,/ /g'|sort -u -t " " -k1,1 -k2n,2 > probpart1.txt
 
 #Problem 2
