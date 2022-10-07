@@ -1,0 +1,22 @@
+# 1. File that contains gender in the first column and yearsExperience in 
+# a second column with a space separating the two columns from wages.csv file. The rows should be sorted first by gender and 
+# then by yearsExperience, pairings in a given row remain intact 
+cat wages.csv | tail -n +2 | cut -d , -f 1,4 | sed s/,/" "/g | sort -t " " -k1,1 -k2,2n
+
+
+# 2. a) The gender, yearsExperience, and wage for the highest earner, b) the gender, 
+# yearsExperience, and wage for the lowest earner,and c) the number of females in the 
+# top ten earners in this data set.
+echo "Gender, yearsExperience, and wage for the highest earner"
+cat wages.csv | sed s/,/" "/g | sort -k4,4nr | head -1 | cut -d " " -f 1,2,4 
+echo "Gender, yearsExperience, and wage for the lowest earner"
+cat wages.csv | sed s/,/" "/g | sort -k4,4n | head -2 | tail -1 | cut -d " " -f 1,2,4 
+echo "The number of females in the top ten earners in this data set"
+cat wages.csv | sed s/,/" "/g | sort -k4,4nr | head -10 | grep "female" | wc -l
+
+
+# 3. The effect of graduating college (12 vs. 16 years of school) on the minimum wage for earners
+echo "The effect of graduating college on the minimum wage for earners"
+NoCollegeMinWage=$(cat wages.csv | cut -d , -f 1,3,4 | grep "12," | sort -k3,3n | head -1 | cut -d , -f 3)
+CollegeMinWage=$(cat wages.csv | cut -d , -f 1,3,4 | grep "16," | sort -k3,3n | head -1 | cut -d , -f 3)
+echo "$CollegeMinWage-$NoCollegeMinWage" | bc
