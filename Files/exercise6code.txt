@@ -1,0 +1,37 @@
+# Exercise 6 Code
+
+#Question 1
+
+#keep first 2 columns, exclude headers, sort by gender and years experience, keep unique pairs
+#switch commas to spaces and write to a file
+cat wages.csv|cut -d, -f 1,2|grep -v "gender"|sort -t, -k 1,1 -k 2,2n|uniq|sed 's/,/ /'>gender-yearsExp.txt
+
+echo "**gender-yearsExp.txt was created and contains unique gender-yearsExperience pairs sorted by gender and then year"
+
+#Question 2
+
+echo "**the below shows data for the highest earner"
+
+#keep cp;umn 1,2,4 and sort numerically by wage in descending order, outputs row with highest wage
+cat wages.csv|cut -d, -f 1,2,4|sort -t, -k 3nr|head -n 1
+
+echo "**the below shows data for the lowest earner"
+
+#keep column 1,2,4 and exclude header and sort numerically by wage in descending order, with output row with lowest wage
+cat wages.csv|cut -d, -f 1,2,4|grep -v "gender"|sort-t, -k 3nr|tail -n 1
+
+echo "**the below shows how many females are in the top 10 earners"
+
+#keep column 1,2,4, sort numerically by wage in descending in order, output rows with the top 10 wages
+#take rows with female earners, output number of rows left
+cat wages.csv|cut -d, -f 1,2,4|sort -t, -k 3nr|head -n 10|grep "female"|wc -l
+
+#Question 3
+
+echo "**the below shows the difference in wage between the lowest earner with 16 years of school and the lowest earner with 12 years of school"
+
+#define the variable as lowest wage for earners with 12 years of school
+twelve_min=$(cat wages.csv|cut -d, -f 3,4|grep -E "^12"|sort -t, -nk 2|cut -d, -f|head -n 1)
+sixteen_min=$(cat wages.csv|cut -d, -f 3,4|grep -E "^16"|sort -t, -nk 2|cut -d, -f 2|head -n 1)
+
+
